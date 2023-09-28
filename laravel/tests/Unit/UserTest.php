@@ -26,7 +26,6 @@ class UserTest extends TestCase
         $this->assertInstanceOf(User::class, $user);
     }
 
-    /*
     public function testUserHasManyPosts(): void
     {
         $user = User::factory()
@@ -35,5 +34,4 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $user->posts);
     }
-    */
 }
