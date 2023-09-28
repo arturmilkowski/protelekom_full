@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* font-family: 'Inconsolata', monospace; */
+  @apply bg-gray-50 dark:bg-stone-800;
+}
+
+@layer base {
+  nav {
+    @apply flex;
+  }
+  nav a {
+    @apply pr-8;
+  }
+  a:hover {
+    @apply text-blue-800 dark:text-blue-100;
+  }
+}
+.router-link-active {
+  @apply text-blue-800 dark:text-blue-300;
+}
+
+.logo {
+  @apply text-gray-700 dark:text-gray-300;
+}
