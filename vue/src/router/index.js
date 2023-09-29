@@ -23,6 +23,11 @@ const router = createRouter({
       component: () => import('../views/blog/IndexView.vue')
     },
     {
+      path: '/blog/posts/:id',
+      name: 'posts.show',
+      component: () => import('../views/blog/ShowView.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/error/NotFoundView.vue')

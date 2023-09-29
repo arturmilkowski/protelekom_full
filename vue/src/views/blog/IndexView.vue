@@ -38,9 +38,9 @@ try {
         <TableData>{{ index + 1 }}</TableData>
         <TableData>{{ item.id }}</TableData>
         <TableData>
-          <!-- <RouterLink :to="{ name: 'posts.show', params: { id: item.id } }"> -->
-          {{ item.title }}
-          <!-- </RouterLink> -->
+          <RouterLink :to="{ name: 'posts.show', params: { id: item.id } }">
+            {{ item.title }}
+          </RouterLink>
         </TableData>
       </tr>
     </tbody>
