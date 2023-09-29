@@ -22,8 +22,8 @@ try {
 <template>
   <HeaderOne>Wpisy</HeaderOne>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
-  <p class="px-2 mt-6">
-    <!-- <RouterLink :to="{ name: 'posts.create' }">Dodaj</RouterLink> -->
+  <p class="px-2 my-6">
+    <RouterLink :to="{ name: 'posts.create' }">Dodaj</RouterLink>
   </p>
   <table v-if="collection.length" class="w-full px-2 text-left">
     <thead>
