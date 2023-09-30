@@ -16,7 +16,6 @@ try {
 } catch (e) {
   error = e
 }
-// console.log(item, error)
 </script>
 
 <template>
@@ -45,7 +44,7 @@ try {
         <TableData>{{ item.content }}</TableData>
       </tr>
       <tr>
-        <TableData>Gfrafika</TableData>
+        <TableData>Grafika</TableData>
         <TableData>{{ item.img }}</TableData>
       </tr>
       <tr>
@@ -81,7 +80,7 @@ try {
   <BtnGroup>
     <RouterLink :to="{ name: 'posts.index' }">Powrót</RouterLink>
     <template v-if="item">
-      <!-- <RouterLink :to="{ name: 'posts.edit', params: { id: item.id } }">Edytuj</RouterLink> -->
+      <RouterLink :to="{ name: 'posts.edit', params: { id: item.id } }">Edytuj</RouterLink>
     </template>
   </BtnGroup>
 </template>

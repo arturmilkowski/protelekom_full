@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Blog\PostResource;
 use App\Models\Blog\Post;
 use App\Http\Requests\Blog\Post\PostRequest;
@@ -63,6 +64,9 @@ class PostController extends Controller
 
     public function destroy(Post $post): Response
     {
+        if ($post->img) {
+            Storage::delete($this->filepath . $post->img);
+        }
         $post->delete();
 
         return response()->noContent();

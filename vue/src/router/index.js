@@ -33,6 +33,11 @@ const router = createRouter({
       component: () => import('../views/blog/ShowView.vue')
     },
     {
+      path: '/blog/posts/:id/edit',
+      name: 'posts.edit',
+      component: () => import('../views/blog/EditView.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/error/NotFoundView.vue')

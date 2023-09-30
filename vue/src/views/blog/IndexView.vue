@@ -11,12 +11,9 @@ let error = null
 try {
   const res = await axios('api/blog/posts')
   collection = res.data.data
-  // console.log(res.data.data)
 } catch (e) {
   error = e
-  // console.log(error)
 }
-// console.log(collection, err)
 </script>
 
 <template>

@@ -22,11 +22,19 @@ class PostRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        $approved = 0;
+        if ($this->request->get('approved') == 'true') {
+            $approved = 1;
+        }
+        $published = 0;
+        if ($this->request->get('published') == 'true') {
+            $published = 1;
+        }
         $this->merge([
             'user_id' => 1, // Auth::id(),
             'slug' => Str::slug($this->title),
-            'approved' => $this->request->get('approved') ?? 0,
-            'published' => $this->request->get('published') ?? 0,
+            'approved' => $approved, // $this->request->get('approved') ?? 0,
+            'published' => $published, // $this->request->get('published') ?? 0,
             'comments_allowed' => $this->request->get('comments_allowed') ?? 0,
         ]);
     }
