@@ -10,11 +10,23 @@ const route = useRoute()
 
 let error = null
 let item = null
+
 try {
   const res = await axios(`api/blog/posts/${route.params.id}`)
   item = res.data.data
 } catch (e) {
   error = e
+}
+
+const destroy = async (id) => {
+  if (confirm('Potwierdź')) {
+    try {
+      await axios.delete('api/blog/posts/images/' + id)
+    } catch (e) {
+      error.value = e
+    }
+    item.img = null
+  }
 }
 </script>
 
@@ -45,7 +57,13 @@ try {
       </tr>
       <tr>
         <TableData>Grafika</TableData>
-        <TableData>{{ item.img }}</TableData>
+        <TableData>
+          <template v-if="item.img">
+            <img :src="item.img" width="200" />
+            <a @click="destroy(route.params.id)" href="#usunGrafike" class="btn btn-danger">Usuń</a>
+          </template>
+          <template v-else>&mdash;</template>
+        </TableData>
       </tr>
       <tr>
         <TableData>Opis strony</TableData>
