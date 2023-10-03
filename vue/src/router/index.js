@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/page/HomeView.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'pages.home',
+      name: 'pages.index',
       component: HomeView,
       meta: { auth: false }
     },
@@ -68,13 +69,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  // const store = useAuthStore();
-  // if (to.meta.auth === true && store.isGuest && to.name !== "login") {
-  //   return { name: "login" };
-  // }
-  if (to.meta.auth === true && to.name !== 'login') {
+  const store = useAuthStore()
+  // console.log('store', store.isGuest)
+  if (to.meta.auth === true && store.isGuest && to.name !== 'login') {
     return { name: 'login' }
   }
+  // if (to.meta.auth === true && to.name !== 'login') {
+  //   return { name: 'login' }
+  // }
   // console.log('beforeEach', 'to auth:', to.meta.auth)
 })
 export default router
