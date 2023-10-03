@@ -3,5 +3,5 @@ import HeaderOne from '@/components/HeaderOne.vue'
 </script>
 
 <template>
-  <HeaderOne>This is an about page</HeaderOne>
+  <HeaderOne>Rejestracja</HeaderOne>
 </template>

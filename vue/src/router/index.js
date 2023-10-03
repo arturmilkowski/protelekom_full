@@ -7,42 +7,74 @@ const router = createRouter({
     {
       path: '/',
       name: 'pages.home',
-      component: HomeView
+      component: HomeView,
+      meta: { auth: false }
     },
     {
       path: '/about',
       name: 'pages.about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/page/AboutView.vue')
+      component: () => import('../views/page/AboutView.vue'),
+      meta: { auth: false }
     },
     {
       path: '/blog/posts',
       name: 'posts.index',
-      component: () => import('../views/blog/IndexView.vue')
+      component: () => import('../views/blog/IndexView.vue'),
+      meta: { auth: true }
     },
     {
       path: '/blog/posts/create',
       name: 'posts.create',
-      component: () => import('../views/blog/CreateView.vue')
+      component: () => import('../views/blog/CreateView.vue'),
+      meta: { auth: true }
     },
     {
       path: '/blog/posts/:id',
       name: 'posts.show',
-      component: () => import('../views/blog/ShowView.vue')
+      component: () => import('../views/blog/ShowView.vue'),
+      meta: { auth: true }
     },
     {
       path: '/blog/posts/:id/edit',
       name: 'posts.edit',
-      component: () => import('../views/blog/EditView.vue')
+      component: () => import('../views/blog/EditView.vue'),
+      meta: { auth: true }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/auth/LoginView.vue'),
+      meta: { auth: false }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('../views/auth/LogoutView.vue'),
+      meta: { auth: true }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/auth/RegisterView.vue'),
+      meta: { auth: false }
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('../views/error/NotFoundView.vue')
+      component: () => import('../views/error/NotFoundView.vue'),
+      meta: { auth: false }
     }
   ]
 })
 
+router.beforeEach((to) => {
+  // const store = useAuthStore();
+  // if (to.meta.auth === true && store.isGuest && to.name !== "login") {
+  //   return { name: "login" };
+  // }
+  if (to.meta.auth === true && to.name !== 'login') {
+    return { name: 'login' }
+  }
+  // console.log('beforeEach', 'to auth:', to.meta.auth)
+})
 export default router

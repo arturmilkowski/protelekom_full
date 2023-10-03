@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+import HeaderOne from '@/components/HeaderOne.vue'
+</script>
 
 <template>
-  <main>Index</main>
+  <HeaderOne>Index</HeaderOne>
 </template>
