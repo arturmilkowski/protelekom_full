@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="" target="_blank">
+    <a href="https://vuejs.org/" target="_blank">
         <img
             src="https://blog.vuejs.org/logo.svg"
             height="150"
@@ -14,4 +14,5 @@
         >
     </a>
 </p>
-<p>Prosty blog internetowy</p>
+
+# Prosty blog internetowy i prezentacja produktów
