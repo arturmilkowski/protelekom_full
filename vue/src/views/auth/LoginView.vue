@@ -15,8 +15,8 @@ const store = useAuthStore()
 const error = ref(null)
 const validationError = ref(null)
 
-const email = ref('artur-milkowski@tlen.pl')
-const password = ref('12345678')
+const email = ref('') // 'artur-milkowski@tlen.pl'
+const password = ref('') // '12345678'
 
 const onSubmit = async () => {
   // console.log('onSubmit', email.value, password.value)
@@ -43,7 +43,7 @@ const onSubmit = async () => {
   <template v-if="store.isGuest">
     <form @submit.prevent="onSubmit" class="px-2 pt-2">
       <InputGroup>
-        <InputField v-model="email" name="email" id="email" placeholder="Login" />
+        <InputField v-model="email" type="email" id="email" placeholder="Login" />
         <template v-if="validationError?.email">
           <template v-for="e in validationError.email" :key="e.name">
             <ValidationError>{{ e }}</ValidationError>
@@ -51,7 +51,7 @@ const onSubmit = async () => {
         </template>
       </InputGroup>
       <InputGroup>
-        <InputField v-model="password" name="password" id="password" placeholder="Hasło" />
+        <InputField v-model="password" type="password" id="password" placeholder="Hasło" />
         <template v-if="validationError?.password">
           <template v-for="e in validationError.password" :key="e.name">
             <ValidationError>{{ e }}</ValidationError>

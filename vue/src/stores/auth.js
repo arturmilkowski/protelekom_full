@@ -97,8 +97,6 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   const isGuest = computed(() => {
-    console.log('Object.keys(user).length: ', Object.keys(user).length)
-
     return Object.keys(user).length === 0
   })
 

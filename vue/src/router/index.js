@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/page/HomeView.vue'
+import HomeView from '../views/page/IndexView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -39,6 +39,24 @@ const router = createRouter({
       path: '/blog/posts/:id/edit',
       name: 'posts.edit',
       component: () => import('../views/blog/EditView.vue'),
+      meta: { auth: true }
+    },
+    {
+      path: '/products/index',
+      name: 'products.index',
+      component: () => import('../views/product/IndexView.vue'),
+      meta: { auth: true }
+    },
+    {
+      path: '/products/brands',
+      name: 'products.brands.index',
+      component: () => import('../views/product/brand/IndexView.vue'),
+      meta: { auth: true }
+    },
+    {
+      path: '/products/categories',
+      name: 'products.categories.index',
+      component: () => import('../views/product/category/IndexView.vue'),
       meta: { auth: true }
     },
     {
