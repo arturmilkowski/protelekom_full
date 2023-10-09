@@ -9,17 +9,18 @@ import TableHeaderRow from '@/components/TableHeaderRow.vue'
 import InputField from '@/components/InputField.vue'
 import ValidationError from '@/components/ValidationError.vue'
 
-let collection = []
-let error = null
+let collection = ref([])
+let error = ref(null)
 let editedItem = ref(0)
 let name = ref('')
+let slug = ref('')
 const validationError = ref(null)
 
 try {
   const res = await axios('api/products/brands')
-  collection = res.data.data
+  collection.value = res.data.data
 } catch (e) {
-  error = e
+  error.value = e
 }
 
 const onDoubleClick = async (id) => {
@@ -27,8 +28,9 @@ const onDoubleClick = async (id) => {
   try {
     const res = await axios(`api/products/brands/${id}`)
     name.value = res.data.data.name
+    slug.value = res.data.data.slug
   } catch (e) {
-    error = e
+    error.value = e
   }
 }
 
@@ -41,8 +43,10 @@ const onSubmit = async () => {
   let data = null
   try {
     data = await axios.post('api/products/brands/' + editedItem.value, payload)
-    const result = collection.find(({ id }) => id === editedItem.value)
-    result.name = data.data.name
+    const updatedData = { slug: data.data.slug, name: data.data.name }
+    collection.value = collection.value.map((item) =>
+      item.id === editedItem.value ? { ...item, ...updatedData } : item
+    )
   } catch (e) {
     if (e.code != 'ERR_BAD_REQUEST') {
       error.value = e
@@ -89,6 +93,7 @@ const stopEditing = () => {
                 v-model="name"
                 id="name"
                 placeholder="Pole obowiązkowe"
+                ref="nameRef"
                 required
               />
               <template v-if="validationError?.name">

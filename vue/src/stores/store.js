@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
@@ -48,17 +49,20 @@ export const useStore = defineStore('store', () => {
 
   async function update(urlFragment, id, payload) {
     // const authStore = useAuthStore();
-    let err = null
+    // payload.concat({_method: 'PUT'})
+    let err = ref(null)
     let validationErr = []
     let data = null
     try {
       data = await axios.put(urlFragment + '\\' + id, payload)
     } catch (e) {
       // console.log('e', e)
-      // validation error
+      err.value = e
+      /*
       if (e.code != 'ERR_BAD_REQUEST') {
-        err = e
+        err.value = e
       }
+      */
       if (e.response?.data.errors) {
         validationErr = e.response.data.errors
       }
