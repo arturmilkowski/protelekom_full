@@ -14,6 +14,13 @@ class Category extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (Category $category) {
+            $category->slug = str()->slug($category->name);
+        });
+        static::updating(function (Category $category) {
+            $category->slug = str()->slug($category->name);
+        });
+
         static::created(function () {
             Cache::forget('categories');
         });

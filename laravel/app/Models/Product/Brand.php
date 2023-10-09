@@ -14,7 +14,6 @@ class Brand extends Model
     /**
      * The "booted" method of the model.
      */
-    /*
     protected static function booted(): void
     {
         static::creating(function (Brand $brand) {
@@ -24,7 +23,6 @@ class Brand extends Model
             $brand->slug = str()->slug($brand->name);
         });
     }
-    */
 
     /*
     public function products(): HasMany

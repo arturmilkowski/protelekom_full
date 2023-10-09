@@ -4,7 +4,7 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
+// use Illuminate\Support\Str;
 
 class CategoryRequest extends FormRequest
 {
@@ -19,10 +19,12 @@ class CategoryRequest extends FormRequest
     /**
      * Prepare the data for validation.
      */
+    /*
     protected function prepareForValidation(): void
     {
-        $this->merge(['slug' => Str::slug($this->brand)]);
+        $this->merge(['slug' => Str::slug($this->category->name)]);
     }
+    */
 
     /**
      * Get the validation rules that apply to the request.
@@ -32,7 +34,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:255', Rule::unique('brands', 'name')->ignore($this->brand)],
+            'name' => ['required', 'max:255', Rule::unique('categories', 'name')->ignore($this->category)],
             'slug' => [],
         ];
     }

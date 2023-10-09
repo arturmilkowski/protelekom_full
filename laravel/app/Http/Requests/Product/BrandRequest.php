@@ -4,7 +4,7 @@ namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
+// use Illuminate\Support\Str;
 
 class BrandRequest extends FormRequest
 {
@@ -19,11 +19,12 @@ class BrandRequest extends FormRequest
     /**
      * Prepare the data for validation.
      */
+    /*
     protected function prepareForValidation(): void
     {
-        $this->merge(['slug' => Str::slug($this->brand)]);
+        $this->merge(['slug' => Str::slug($this->brand->name)]);
     }
-
+    */
     /**
      * Get the validation rules that apply to the request.
      *
