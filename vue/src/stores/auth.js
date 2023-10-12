@@ -3,7 +3,8 @@ import axios from 'axios'
 import { computed, reactive } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  let user = reactive(localStorage.getItem('user') || {})
+  // console.log(JSON.parse(localStorage.getItem('user')))
+  let user = reactive(JSON.parse(localStorage.getItem('user')) || {})
 
   const getToken = async () => {
     let err = null
