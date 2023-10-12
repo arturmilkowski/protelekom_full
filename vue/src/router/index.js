@@ -66,6 +66,12 @@ const router = createRouter({
       meta: { auth: true }
     },
     {
+      path: '/products/categories/create',
+      name: 'products.categories.create',
+      component: () => import('../views/product/category/CreateView.vue'),
+      meta: { auth: true }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../views/auth/LoginView.vue'),
