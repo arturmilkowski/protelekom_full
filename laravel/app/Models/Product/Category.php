@@ -5,6 +5,7 @@ namespace App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -32,10 +33,8 @@ class Category extends Model
         });
     }
 
-    /*
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
-    */
 }
