@@ -27,15 +27,17 @@ if (res.data) {
         <TableHeader>L.P.</TableHeader>
         <TableHeader>#</TableHeader>
         <TableHeader>Name</TableHeader>
-        <TableHeader>Slug</TableHeader>
       </TableHeaderRow>
     </thead>
     <tbody>
       <tr v-for="(item, index) in collection" :key="item.id">
         <TableData>{{ index + 1 }}</TableData>
         <TableData>{{ item.id }}</TableData>
-        <TableData>{{ item.name }}</TableData>
-        <TableData>{{ item.slug }}</TableData>
+        <TableData>
+          <RouterLink :to="{ name: 'products.products.show', params: { id: item.id } }">
+            {{ item.name }}
+          </RouterLink>
+        </TableData>
       </tr>
     </tbody>
   </table>
