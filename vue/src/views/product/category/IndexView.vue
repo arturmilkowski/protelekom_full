@@ -7,6 +7,7 @@ import TableData from '@/components/TableData.vue'
 import TableHeader from '@/components/TableHeader.vue'
 import TableHeaderRow from '@/components/TableHeaderRow.vue'
 import InputField from '@/components/InputField.vue'
+import InputButton from '@/components/InputButton.vue'
 import ValidationError from '@/components/ValidationError.vue'
 
 const store = useStore()
@@ -56,6 +57,21 @@ const onSubmit = async () => {
 const stopEditing = () => {
   editedItem.value = 0
 }
+
+const destroy = async (id) => {
+  if (confirm('Potwierdź')) {
+    // console.log('destroy', id)
+    const { err, data } = await store.destroy('api/products/categories', id)
+    // console.log(err, data)
+    error.value = err
+
+    const { err: err1, collection: res } = await store.all('api/products/categories')
+    error.value = err1
+    collection.value = res.data
+  }
+
+  stopEditing()
+}
 </script>
 
 <template>
@@ -93,6 +109,12 @@ const stopEditing = () => {
                   <ValidationError>{{ e }}</ValidationError>
                 </template>
               </template>
+            </form>
+            <form @submit.prevent="destroy(item.id)">
+              <InputButton>Usuń</InputButton>
+            </form>
+            <form @submit.prevent="stopEditing">
+              <InputButton>Anuluj</InputButton>
             </form>
           </template>
           <template v-else>

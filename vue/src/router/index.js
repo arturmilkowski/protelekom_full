@@ -72,6 +72,12 @@ const router = createRouter({
       meta: { auth: true }
     },
     {
+      path: '/products/products',
+      name: 'products.products.index',
+      component: () => import('../views/product/product/IndexView.vue'),
+      meta: { auth: true }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../views/auth/LoginView.vue'),

@@ -17,11 +17,12 @@ const error = ref(null)
 const validationError = ref(null)
 
 const item = reactive({ name: '' })
-// const nameRef = ref(null)
+const refName = ref(null)
 const input = ref(null)
 
 onMounted(() => {
-  // nameRef.value.focus()
+  // refName.value.focus()
+  console.log('on', refName)
   // input.value.focus()
   // console.log('input.value', input.value)
   // console.log('nameRef.value', nameRef.value)
@@ -48,7 +49,7 @@ const onSubmit = async () => {
     <InputGroup>
       <InputLabel for="name">Nazwa</InputLabel>
       <!-- refName="nameRef" -->
-      <InputField v-model="item.name" id="name" placeholder="Pole obowiązkowe" />
+      <InputField v-model="item.name" id="name" placeholder="Pole obowiązkowe" refName="name" />
       <template v-if="validationError?.name">
         <template v-for="e in validationError.name" :key="e.name">
           <ValidationError>{{ e }}</ValidationError>
