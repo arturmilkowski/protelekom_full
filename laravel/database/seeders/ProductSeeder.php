@@ -25,5 +25,19 @@ class ProductSeeder extends Seeder
                 'site_keyword' => 'samsung, galaxy, flip',
             ]
         );
+        DB::table('products')->insert(
+            [
+                'brand_id' => 1,
+                'category_id' => 1,
+                'slug' => 'product-1',
+                'name' => 'Product 1',
+                'description' => '',
+                'img' => '',
+                'site_description' => '',
+                'site_keyword' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
     }
 }

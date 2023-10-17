@@ -33,7 +33,7 @@ class PostSeeder extends Seeder
             'title' => 'Post 1',
             'intro' => '',
             'content' => '',
-            'img' => 'post1.gif',
+            'img' => 'post1.jpg',
             'site_description' => '',
             'site_keyword' => '',
             'approved' => '1',
@@ -47,13 +47,27 @@ class PostSeeder extends Seeder
             'title' => 'Post 2',
             'intro' => '',
             'content' => '',
-            'img' => 'post1.gif',
+            'img' => '',
             'site_description' => '',
             'site_keyword' => '',
             'approved' => '1',
             'published' => '1',
             'created_at' => '2023-09-01 22:11:22.000000',
             'updated_at' => '2023-09-07 22:11:22.000000',
+        ]);
+        DB::table('posts')->insert([
+            'user_id' => 2,
+            'slug' => 'post-3',
+            'title' => 'Post 3',
+            'intro' => '',
+            'content' => '',
+            'img' => '',
+            'site_description' => '',
+            'site_keyword' => '',
+            'approved' => '0',
+            'published' => '0',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }
