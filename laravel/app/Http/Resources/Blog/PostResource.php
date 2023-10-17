@@ -18,7 +18,7 @@ class PostResource extends JsonResource
 
         $img = null;
         if ($this->img) {
-            $img = asset('storage/images/blog') . '/' . $this->img;
+            $img = asset(config('settings.store_filepath.blog')) . '/' . $this->img;
         }
         return [
             'id' => $this->id,

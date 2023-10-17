@@ -14,8 +14,6 @@ use App\Services\File;
 
 class PostController extends Controller
 {
-    private $filepath = 'public/images/blog/';
-
     public function index(): AnonymousResourceCollection
     {
         return PostResource::collection(Post::latest()->get());
@@ -29,7 +27,7 @@ class PostController extends Controller
         if ($file) {
             $extension = $file->extension();
             $filename = $validated['slug'] . '.' . $extension;
-            File::store($request, $this->filepath, $filename);
+            File::store($request, config('settings.filepath.blog'), $filename);
             $validated['img'] = $filename;
         }
 
@@ -51,7 +49,7 @@ class PostController extends Controller
         if ($file) {
             $extension = $file->extension();
             $filename = $validated['slug'] . '.' . $extension;
-            $path = File::update($request, $post->img, $this->filepath, $filename);
+            $path = File::update($request, $post->img, config('settings.filepath.blog'), $filename);
             if ($path) {
                 $validated['img'] = $filename; // assign new path
             }
@@ -64,7 +62,7 @@ class PostController extends Controller
     public function destroy(Post $post): Response
     {
         if ($post->img) {
-            Storage::delete($this->filepath . $post->img);
+            Storage::delete(config('settings.filepath.blog') . $post->img);
         }
         $post->delete();
 

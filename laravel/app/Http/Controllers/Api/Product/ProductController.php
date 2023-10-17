@@ -15,6 +15,8 @@ class ProductController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
+        return ProductResource::collection(Product::latest()->get());
+        /*
         return ProductResource::collection(
             Cache::rememberForever(
                 'products',
@@ -23,6 +25,7 @@ class ProductController extends Controller
                 }
             )
         );
+        */
     }
 
     public function store(ProductRequest $request): JsonResponse
