@@ -10,13 +10,23 @@ import BtnGroup from '@/components/BtnGroup.vue'
 const route = useRoute()
 const store = useStore()
 let error = null
-let item = null
+let item = ref(null)
 
 const { err, data } = await store.getOne('api/products', route.params.id)
 error = err
-item = data.data
-// console.log(err, data.data)
-// console.log(error, item)
+item.value = data.data
+
+const destroy = async (id) => {
+  if (confirm('Potwierdź')) {
+    try {
+      await store.destroy('api/products/images', id)
+    } catch (e) {
+      error.value = e
+    }
+
+    item.value.img = null
+  }
+}
 </script>
 
 <template>
@@ -50,7 +60,13 @@ item = data.data
       </tr>
       <tr>
         <TableData>Zdjęcie</TableData>
-        <TableData>{{ item.img }}</TableData>
+        <TableData>
+          <template v-if="item.img">
+            <img :src="item.img" width="200" />
+            <a @click="destroy(route.params.id)" href="#usunGrafike" class="btn btn-danger">Usuń</a>
+          </template>
+          <template v-else>&mdash;</template>
+        </TableData>
       </tr>
       <tr>
         <TableData>Opis strony</TableData>
@@ -76,8 +92,10 @@ item = data.data
   </table>
   <BtnGroup>
     <RouterLink :to="{ name: 'products.products.index' }">Powrót</RouterLink>
-    <!-- <template v-if="item">
-      <RouterLink :to="{ name: 'posts.edit', params: { id: item.id } }">Edytuj</RouterLink>
-    </template> -->
+    <template v-if="item">
+      <RouterLink :to="{ name: 'products.products.edit', params: { id: item.id } }"
+        >Edytuj</RouterLink
+      >
+    </template>
   </BtnGroup>
 </template>

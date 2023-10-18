@@ -52,20 +52,34 @@ export const useStore = defineStore('store', () => {
 
   async function update(urlFragment, id, payload) {
     // const authStore = useAuthStore();
-    // payload.concat({_method: 'PUT'})
     let err = ref(null)
     let validationErr = []
     let data = null
     try {
       data = await axios.put(urlFragment + '\\' + id, payload)
     } catch (e) {
-      // console.log('e', e)
       err.value = e
       /*
       if (e.code != 'ERR_BAD_REQUEST') {
         err.value = e
       }
       */
+      if (e.response?.data.errors) {
+        validationErr = e.response.data.errors
+      }
+    }
+
+    return { err, validationErr, data }
+  }
+
+  async function postForm(urlFragment, id, payload) {
+    let err = ref(null)
+    let validationErr = []
+    let data = null
+    try {
+      data = await axios.postForm(urlFragment + '\\' + id, payload)
+    } catch (e) {
+      err.value = e
       if (e.response?.data.errors) {
         validationErr = e.response.data.errors
       }
@@ -87,5 +101,5 @@ export const useStore = defineStore('store', () => {
     return { err, data }
   }
 
-  return { all, getOne, create, update, destroy }
+  return { all, getOne, create, update, destroy, postForm }
 })

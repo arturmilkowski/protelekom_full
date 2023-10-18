@@ -1,14 +1,12 @@
 <script setup>
-const p = defineProps({
+defineProps({
   type: { type: String, default: 'text' },
   id: { type: String },
   placeholder: { type: String },
   modelValue: { type: String },
   refName: { type: String }
 })
-
 defineEmits(['update:modelValue'])
-// console.log('c', p.refName)
 </script>
 
 <template>
