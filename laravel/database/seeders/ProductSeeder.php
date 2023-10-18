@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         DB::table('products')->insert(
             [
-                'brand_id' => 1,
+                'brand_id' => 2,
                 'category_id' => 1,
                 'slug' => 'galaxy-z-flip5',
                 'name' => 'Galaxy Z Flip5',
@@ -23,6 +23,8 @@ class ProductSeeder extends Seeder
                 'img' => 'galaxy-z-flip5.jpg',
                 'site_description' => 'Posiadamy telefony samsung',
                 'site_keyword' => 'samsung, galaxy, flip',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         );
         DB::table('products')->insert(

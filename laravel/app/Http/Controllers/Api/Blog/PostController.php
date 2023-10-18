@@ -54,6 +54,7 @@ class PostController extends Controller
                 $validated['img'] = $filename; // assign new path
             }
         }
+
         $post->update($validated);
 
         return response()->json($post, 200);
@@ -64,6 +65,7 @@ class PostController extends Controller
         if ($post->img) {
             Storage::delete(config('settings.filepath.blog') . $post->img);
         }
+
         $post->delete();
 
         return response()->noContent();

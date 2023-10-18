@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             'slug' => $slug,
             'name' => $name,
             'description' => $this->faker->word(3, true),
-            'img' => $slug . '.jpg',
+            'img' => null, // $slug . '.jpg',
             'site_description' => $this->faker->words(3, true),
             'site_keyword' => $this->faker->words(3, true),
             'hide' => $this->faker->boolean(),
