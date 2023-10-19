@@ -7,11 +7,13 @@ import HeaderOne from '@/components/HeaderOne.vue'
 import AppAlert from '@/components/AppAlert.vue'
 import TableData from '@/components/TableData.vue'
 import BtnGroup from '@/components/BtnGroup.vue'
+import ImageModal from '@/components/ImageModal.vue'
 
 const route = useRoute()
 const store = useStore()
 let error = null
 let item = ref(null)
+const showModal = ref(false)
 
 const { err, data } = await store.getOne('api/products', route.params.id)
 error = err
@@ -33,6 +35,9 @@ const destroy = async (id) => {
 </script>
 
 <template>
+  <Teleport to="body">
+    <ImageModal :show="showModal" :img="item.img" @close="showModal = false" />
+  </Teleport>
   <HeaderOne>Produkt</HeaderOne>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
   <table v-if="item" class="w-full px-2">
@@ -65,7 +70,10 @@ const destroy = async (id) => {
         <TableData>Zdjęcie</TableData>
         <TableData>
           <template v-if="item.img">
-            <img :src="item.img" width="200" />
+            <!-- <button id="show-modal" @click="showModal = true">Show Modal</button> -->
+            <a href="#" id="show-modal" @click="showModal = true">
+              <img :src="item.img" width="200" />
+            </a>
             <a @click="destroy(route.params.id)" href="#usunGrafike" class="btn btn-danger">Usuń</a>
           </template>
           <template v-else>&mdash;</template>
