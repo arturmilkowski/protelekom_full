@@ -1,5 +1,5 @@
 <script setup>
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/stores/store'
 import HeaderOne from '@/components/HeaderOne.vue'
@@ -18,7 +18,7 @@ const route = useRoute()
 const router = useRouter()
 const store = useStore()
 
-let item = null
+let item = ref(null)
 let brands = []
 let categories = []
 let error = null
@@ -26,8 +26,8 @@ let validationError = null
 
 const { err, data } = await store.getOne('api/products', route.params.id)
 error = err
-item = data?.data
-item.hide = Boolean(item.hide)
+item.value = data?.data
+item.value.hide = Boolean(item.value.hide)
 
 const { err: brandErr, collection: brandCollection } = await store.all('api/products/brands')
 error = brandErr
@@ -43,16 +43,21 @@ if (categoryCollection.data) {
 }
 
 const fileChange = async (event) => {
-  item.img = event.target.files[0]
+  item.value.img = event.target.files[0]
 }
 
 const onSubmit = async () => {
-  item._method = 'PUT'
-  if (typeof item.img == 'string') {
+  item.value._method = 'PUT'
+  if (typeof item.value.img == 'string') {
     // send only images, not file name
-    delete item.img
+    delete item.value.img
   }
-  const { err, validationErr, data } = await store.postForm('api/products', item.id, item)
+
+  const { err, validationErr, data } = await store.postForm(
+    'api/products',
+    item.value.id,
+    item.value
+  )
   error = err
   validationError = validationErr
 
@@ -69,7 +74,7 @@ const onSubmit = async () => {
     <InputGroup>
       <InputLabel for="brand">Firma</InputLabel>
       <InputSelect
-        v-model="item.brand"
+        v-model="item.brand_id"
         :items="brands"
         id="brand"
         placeholder="Pole obowiązkowe"
@@ -83,7 +88,7 @@ const onSubmit = async () => {
     <InputGroup>
       <InputLabel for="category">Kategoria</InputLabel>
       <InputSelect
-        v-model="item.category"
+        v-model="item.category_id"
         :items="categories"
         id="category"
         placeholder="Pole obowiązkowe"

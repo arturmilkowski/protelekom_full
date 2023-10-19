@@ -45,11 +45,11 @@ const hideMessage = computed(() => {
       </tr>
       <tr>
         <TableData>Firma</TableData>
-        <TableData>{{ item.brand_id }}</TableData>
+        <TableData>{{ item.brand }}</TableData>
       </tr>
       <tr>
         <TableData>Kategoria</TableData>
-        <TableData>{{ item.category_id }}</TableData>
+        <TableData>{{ item.category }}</TableData>
       </tr>
       <tr>
         <TableData>Nazwa</TableData>

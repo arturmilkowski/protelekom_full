@@ -16,7 +16,7 @@ defineEmits(['update:modelValue'])
     class="border border-gray-400 hover:border-gray-900 focus:outline-none focus:border-black bg-white p-1.5 w-full"
   >
     <option disabled value="">{{ placeholder }}</option>
-    <option v-for="item in items" :key="item.id" :value="item.name">
+    <option v-for="item in items" :key="item.id" :value="item.id">
       {{ item.name }}
     </option>
   </select>
