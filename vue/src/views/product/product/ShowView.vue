@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from '@/stores/store'
+import { useTrueFalseMessage } from '@/composables/useTrueFalseMessage'
 import HeaderOne from '@/components/HeaderOne.vue'
 import AppAlert from '@/components/AppAlert.vue'
 import TableData from '@/components/TableData.vue'
@@ -16,6 +17,7 @@ const { err, data } = await store.getOne('api/products', route.params.id)
 error = err
 item.value = data.data
 item.value.hide = Boolean(item.value.hide)
+const { message: hideMessage } = useTrueFalseMessage(item.value.hide)
 
 const destroy = async (id) => {
   if (confirm('Potwierdź')) {
@@ -28,10 +30,6 @@ const destroy = async (id) => {
     item.value.img = null
   }
 }
-
-const hideMessage = computed(() => {
-  return item.value.hide === true ? 'Tak' : 'Nie'
-})
 </script>
 
 <template>
