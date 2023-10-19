@@ -52,10 +52,9 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function update(ProductRequest $request, Product $product): JsonResponse
+    public function update(ProductRequest $request, Product $product) //: JsonResponse
     {
         $validated = $request->validated();
-
         $file = $request->file('img');
         if ($file) {
             $extension = $file->extension();

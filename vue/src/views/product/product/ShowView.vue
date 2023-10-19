@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from '@/stores/store'
 import HeaderOne from '@/components/HeaderOne.vue'
@@ -15,6 +15,7 @@ let item = ref(null)
 const { err, data } = await store.getOne('api/products', route.params.id)
 error = err
 item.value = data.data
+item.value.hide = Boolean(item.value.hide)
 
 const destroy = async (id) => {
   if (confirm('Potwierdź')) {
@@ -27,6 +28,10 @@ const destroy = async (id) => {
     item.value.img = null
   }
 }
+
+const hideMessage = computed(() => {
+  return item.value.hide === true ? 'Tak' : 'Nie'
+})
 </script>
 
 <template>
@@ -78,7 +83,7 @@ const destroy = async (id) => {
       </tr>
       <tr>
         <TableData>Ukryj produkt</TableData>
-        <TableData>{{ item.hide }}</TableData>
+        <TableData>{{ item.hide }} | {{ hideMessage }}</TableData>
       </tr>
       <tr>
         <TableData>Utworzono</TableData>

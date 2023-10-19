@@ -1,4 +1,5 @@
 <script setup>
+// import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/stores/store'
 import HeaderOne from '@/components/HeaderOne.vue'
@@ -26,6 +27,7 @@ let validationError = null
 const { err, data } = await store.getOne('api/products', route.params.id)
 error = err
 item = data?.data
+item.hide = Boolean(item.hide)
 
 const { err: brandErr, collection: brandCollection } = await store.all('api/products/brands')
 error = brandErr
@@ -46,6 +48,10 @@ const fileChange = async (event) => {
 
 const onSubmit = async () => {
   item._method = 'PUT'
+  if (typeof item.img == 'string') {
+    // send only images, not file name
+    delete item.img
+  }
   const { err, validationErr, data } = await store.postForm('api/products', item.id, item)
   error = err
   validationError = validationErr
@@ -152,6 +158,8 @@ const onSubmit = async () => {
     <InputButton />
   </form>
   <BtnGroup>
-    <RouterLink :to="{ name: 'products.products.index' }">Powrót</RouterLink>
+    <RouterLink :to="{ name: 'products.products.show', params: { id: item.id } }"
+      >Powrót</RouterLink
+    >
   </BtnGroup>
 </template>

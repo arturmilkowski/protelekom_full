@@ -6,7 +6,6 @@ const props = defineProps({
   label: { type: String },
   modelValue: { type: [Boolean, Array, Number, String] }
 })
-
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
@@ -20,6 +19,6 @@ const value = computed({
 </script>
 
 <template>
-  <input type="checkbox" v-model="value" />
+  <input type="checkbox" v-model="value" :id="id" />
   <label :for="id" class="text-sm ml-1">{{ label }}</label>
 </template>

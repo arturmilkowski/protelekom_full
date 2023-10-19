@@ -16,6 +16,21 @@ class ProductRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        /*
+        if ($this->hide == 'true') {
+            $this['hide'] = true;
+        } else {
+            $this['hide'] = false;
+        }
+        */
+        $this['hide'] = filter_var($this->hide, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -28,10 +43,10 @@ class ProductRequest extends FormRequest
             'slug' => ['required', 'max:255'],
             'name' => ['required', 'max:255', Rule::unique('products', 'name')->ignore($this->product)],
             'description' => [],
-            'img' => [],
-            'site_description' => [],
-            'site_keyword' => [],
-            'hide' => ['required'],
+            'img' => ['sometimes', 'image'],
+            'site_description' => ['max:255'],
+            'site_keyword' => ['max:255'],
+            'hide' => ['required', 'boolean'],
         ];
     }
 }
