@@ -4,7 +4,8 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Product\{Brand, Category, Product};
+use Illuminate\Support\Collection;
+use App\Models\Product\{Brand, Category, Product, Condition, Type};
 
 class ProductTest extends TestCase
 {
@@ -18,7 +19,11 @@ class ProductTest extends TestCase
 
         $this->brand = Brand::factory()->create();
         $this->category = Category::factory()->create();
-        $this->product = Product::factory()->for($this->brand)->for($this->category)->create();
+        $this->product = Product::factory()
+            ->for($this->brand)
+            ->for($this->category)
+            ->has(Type::factory()->for(Condition::factory()))
+            ->create();
     }
 
     public function testMakeProduct(): void
@@ -47,5 +52,10 @@ class ProductTest extends TestCase
     public function testProductBelongsToCategory(): void
     {
         $this->assertInstanceOf(Category::class, $this->product->category);
+    }
+
+    public function testProductHasManyTypes(): void
+    {
+        $this->assertInstanceOf(Collection::class, $this->product->types);
     }
 }

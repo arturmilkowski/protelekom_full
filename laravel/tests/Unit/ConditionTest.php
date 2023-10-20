@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
-use App\Models\Product\Condition;
+use App\Models\Product\{Condition, Brand, Category, Type, Product};
 
 class ConditionTest extends TestCase
 {
@@ -26,5 +26,17 @@ class ConditionTest extends TestCase
             'slug' => $condition->slug,
             'name' => $condition->name,
         ]);
+    }
+
+    public function testConditionHasManyTypes(): void
+    {
+        $condition = Condition::factory()
+            ->has(
+                Type::factory()
+                    ->for(Product::factory()->for(Brand::factory())->for(Category::factory()))
+            )
+            ->create();
+
+        $this->assertInstanceOf(Collection::class, $condition->types);
     }
 }

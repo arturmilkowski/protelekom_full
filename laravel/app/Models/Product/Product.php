@@ -4,7 +4,7 @@ namespace App\Models\Product;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 use Illuminate\Support\Facades\Cache;
 
 class Product extends Model
@@ -23,16 +23,6 @@ class Product extends Model
         'hide',
     ];
 
-    public function brand(): BelongsTo
-    {
-        return $this->belongsTo(Brand::class);
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     protected static function booted(): void
     {
         static::created(function () {
@@ -44,5 +34,20 @@ class Product extends Model
         static::deleted(function () {
             Cache::forget('products');
         });
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function types(): HasMany
+    {
+        return $this->hasMany(Type::class);
     }
 }
