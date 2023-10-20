@@ -28,9 +28,6 @@ class ProductTest extends TestCase
         $this->product2 = Product::factory()->for($this->brand)->for($this->category)->make(['name' => '']);
     }
 
-    /**
-     * A basic feature test example.
-     */
     public function testIndex(): void
     {
         $this->withoutExceptionHandling();
@@ -99,7 +96,7 @@ class ProductTest extends TestCase
         $response = $this->putJson(route('api.products.update', $this->product), $this->product1->toArray());
 
         $response->assertJsonIsObject();
-        $response->assertStatus(200)->assertJson(['name' => $this->product1->name]);
+        $response->assertStatus(200)->assertJson(['name' => $this->product1->name, 'brand_id' => $this->product1->brand_id]);
         $this->assertDatabaseHas('products', ['name' => $this->product1->name]);
     }
 
