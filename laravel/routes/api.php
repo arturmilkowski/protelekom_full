@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Blog\{PostController, PostImgController};
 use App\Http\Controllers\Api\Product\{BrandController, CategoryController, ConditionController, ProductController, ProductImgController};
+use App\Http\Controllers\Api\Page\AboutController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -17,5 +18,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('products/conditions', ConditionController::class)->names('api.products.conditions');
     Route::apiResource('products', ProductController::class)->names('api.products');
     Route::delete('products/images/{product}', ProductImgController::class)->name('api.products.images.destroy');
+
+    Route::get('about', AboutController::class)->name('api.pages.about');
 });
-// Route::get('/dashboard', function () { return ['laravel' => app()->version(), 'php' => PHP_VERSION]; });
