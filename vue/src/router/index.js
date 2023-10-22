@@ -72,6 +72,12 @@ const router = createRouter({
       meta: { auth: true }
     },
     {
+      path: '/products/conditions',
+      name: 'products.conditions.index',
+      component: () => import('../views/product/condition/IndexView.vue'),
+      meta: { auth: true }
+    },
+    {
       path: '/products/products',
       name: 'products.products.index',
       component: () => import('../views/product/product/IndexView.vue'),
