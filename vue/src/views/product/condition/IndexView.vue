@@ -1,21 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from '@/stores/store'
 import HeaderOne from '@/components/HeaderOne.vue'
 import AppAlert from '@/components/AppAlert.vue'
 import TableHeader from '@/components/TableHeader.vue'
 import TableHeaderRow from '@/components/TableHeaderRow.vue'
 import TableData from '@/components/TableData.vue'
+import InputLabel from '@/components/InputLabel.vue'
 import InputField from '@/components/InputField.vue'
-import InputButton from '@/components/InputButton.vue'
+// import InputButton from '@/components/InputButton.vue'
 import ValidationError from '@/components/ValidationError.vue'
+import CreateModal from '@/components/CreateModal.vue'
 
 const store = useStore()
+const showModal = ref(false)
 let error = ref(null)
 let collection = ref([])
 let editedItem = ref(0)
 let name = ref('')
-let slug = ref('')
+const createdItem = reactive({ name: '' })
 const validationError = ref(null)
 
 const { err, collection: res } = await store.all('api/products/conditions')
@@ -23,13 +26,7 @@ error.value = err
 collection.value = res.data
 
 const onDoubleClick = async (id, name_) => {
-  console.log('onDoubleClick', id, name_)
   editedItem.value = id
-  console.log('editedItem', editedItem.value)
-  //   const { err, data } = await store.getOne('api/products/conditions', id)
-  //   name.value = data.data.name
-  //   slug.value = data.data.slug
-  //   error.value = err
   name.value = name_
 }
 
@@ -37,13 +34,12 @@ const onSubmit = async () => {
   const payload = {
     name: name.value
   }
-  console.log('onSubmit', payload)
+
   const { err, validationErr, data } = await store.update(
     'api/products/conditions',
     editedItem.value,
     payload
   )
-  console.log(err.value, validationErr, data)
   error.value = err.value
   validationError.value = validationErr
 
@@ -56,33 +52,60 @@ const onSubmit = async () => {
   stopEditing()
 }
 
-const stopEditing = () => {
-  editedItem.value = 0
+const destroy = async (id) => {
+  if (confirm('Potwierdź')) {
+    const { err, data } = await store.destroy('api/products/conditions', id)
+    error.value = err
+    if (data?.status == 204) {
+      const indexOfObject = collection.value.findIndex((object) => {
+        return object.id === id
+      })
+      collection.value.splice(indexOfObject, 1)
+    }
+  }
 }
 
-const destroy = async (id) => {
-  // if (confirm('Potwierdź')) {
-  console.log(collection.value)
-  // console.log('destroy', id)
-  // const { err, data } = await store.destroy('api/products/conditions', id)
-  // console.log(err, data)
-  // error.value = err
-  const indexOfObject = collection.value.findIndex((object) => {
-    return object.id === id
-  })
-  console.log(indexOfObject)
-  collection.value.splice(indexOfObject, 1)
-  console.log(collection.value)
-  // }
+const onCreate = async () => {
+  const { err, validationErr, data } = await store.create('api/products/conditions', createdItem)
+  error.value = err
+  validationError.value = validationErr
+
+  if (data?.status == 201) {
+    collection.value.unshift(data.data)
+    showModal.value = false
+  }
+}
+
+const stopEditing = () => {
+  editedItem.value = 0
 }
 </script>
 
 <template>
   <HeaderOne>Stan produktu</HeaderOne>
+  <Teleport to="body">
+    <CreateModal :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>Dodawanie</h3>
+      </template>
+      <template #body>
+        <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
+        <form @submit.prevent="onCreate">
+          <InputLabel for="name">Nazwa</InputLabel>
+          <InputField v-model="createdItem.name" id="name" placeholder="Pole obowiązkowe" />
+          <template v-if="validationError?.name">
+            <template v-for="e in validationError.name" :key="e.name">
+              <ValidationError>{{ e }}</ValidationError>
+            </template>
+          </template>
+          <!-- <InputButton /> -->
+        </form>
+      </template>
+    </CreateModal>
+  </Teleport>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
   <p class="px-2 my-6">
-    <!-- <RouterLink :to="{ name: 'products.categories.create' }">Dodaj</RouterLink> -->
-    Dodaj
+    <a href="#create" @click="showModal = true">Dodaj</a>
   </p>
   <table v-if="collection.length" class="w-full px-2 text-left">
     <thead>
@@ -99,26 +122,32 @@ const destroy = async (id) => {
         <TableData class="w-1/12">{{ item.id }}</TableData>
         <TableData @dblclick="onDoubleClick(item.id, item.name)">
           <template v-if="item.id == editedItem">
-            <form @submit.prevent="onSubmit">
-              <InputField
+            <span class="inline-flex items-baseline">
+              <form @submit.prevent="onSubmit">
+                <!-- <InputField
                 @keyup.esc="stopEditing"
                 v-model="name"
                 id="name"
                 placeholder="Pole obowiązkowe"
                 required
-              />
-              <template v-if="validationError?.name">
-                <template v-for="e in validationError.name" :key="e.name">
-                  <ValidationError>{{ e }}</ValidationError>
+              /> -->
+                <input
+                  @keyup.esc="stopEditing"
+                  v-model="name"
+                  type="text"
+                  id="name"
+                  placeholder="Pole obowiązkowe"
+                  required
+                />
+                <template v-if="validationError?.name">
+                  <template v-for="e in validationError.name" :key="e.name">
+                    <ValidationError>{{ e }}</ValidationError>
+                  </template>
                 </template>
-              </template>
-            </form>
-            <form @submit.prevent="destroy(item.id)">
-              <InputButton>Usuń</InputButton>
-            </form>
-            <form @submit.prevent="stopEditing">
-              <InputButton>Anuluj</InputButton>
-            </form>
+              </form>
+              <button @click="destroy(item.id)">Usuń</button>
+              <button @click="stopEditing">Anuluj</button>
+            </span>
           </template>
           <template v-else>{{ item.name }}</template>
         </TableData>
