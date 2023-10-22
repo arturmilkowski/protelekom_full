@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Page;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AboutController extends Controller
 {
@@ -13,6 +14,7 @@ class AboutController extends Controller
             'php' => PHP_VERSION,
             'laravel' => app()->version(),
             'environment' => app()->environment(),
+            'user' => Auth::user(),
         ]);
     }
 }
