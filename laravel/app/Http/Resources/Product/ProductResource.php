@@ -5,6 +5,7 @@ namespace App\Http\Resources\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 // use Carbon\Carbon;
+use App\Http\Resources\Product\TypeResource;
 
 class ProductResource extends JsonResource
 {
@@ -37,6 +38,7 @@ class ProductResource extends JsonResource
             'hide' => $this->hide,
             'created_at' => $this->created_at, // ->format('Y-m-d'), // 'Y-m-d h:i:s'
             'updated_at' => $this->updated_at, // ->format('Y-m-d'),
+            'types' => TypeResource::collection($this->types),
         ];
     }
 }

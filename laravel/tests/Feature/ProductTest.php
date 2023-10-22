@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Product\{Brand, Category, Product};
+use App\Models\Product\{Brand, Category, Condition, Product, Type};
 
 class ProductTest extends TestCase
 {
@@ -23,7 +23,7 @@ class ProductTest extends TestCase
         $this->actingAs($this->user);
         $this->brand = Brand::factory()->create();
         $this->category = Category::factory()->create();
-        $this->product = Product::factory()->for($this->brand)->for($this->category)->create();
+        $this->product = Product::factory()->for($this->brand)->for($this->category)->has(Type::factory()->for(Condition::factory()))->create();
         $this->product1 = Product::factory()->for($this->brand)->for($this->category)->make();
         $this->product2 = Product::factory()->for($this->brand)->for($this->category)->make(['name' => '']);
     }
@@ -36,7 +36,7 @@ class ProductTest extends TestCase
             ->getJson(route('api.products.index'));
 
         $response->assertStatus(200);
-        // $response->dd();
+        $response->dd();
         /*
         $response->assertJsonStructure([
             'data' => [

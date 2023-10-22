@@ -17,7 +17,8 @@ class ProductController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return ProductResource::collection(Product::latest()->get());
+        return ProductResource::collection(Product::with(['types'])->latest()->get());
+
         /*
         return ProductResource::collection(
             Cache::rememberForever(
@@ -52,7 +53,7 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function update(ProductRequest $request, Product $product) //: JsonResponse
+    public function update(ProductRequest $request, Product $product): JsonResponse
     {
         $validated = $request->validated();
 
