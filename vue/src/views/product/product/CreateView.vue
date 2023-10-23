@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from '@/stores/store'
 import HeaderOne from '@/components/HeaderOne.vue'
+import AppAlert from '@/components/AppAlert.vue'
 import BtnGroup from '@/components/BtnGroup.vue'
 import InputButton from '@/components/InputButton.vue'
-import AppAlert from '@/components/AppAlert.vue'
 import InputGroup from '@/components/InputGroup.vue'
 import InputLabel from '@/components/InputLabel.vue'
 import InputField from '@/components/InputField.vue'
@@ -14,63 +14,64 @@ import InputTextarea from '@/components/InputTextarea.vue'
 import InputCheckbox from '@/components/InputCheckbox.vue'
 import ValidationError from '@/components/ValidationError.vue'
 
-const route = useRoute()
 const router = useRouter()
 const store = useStore()
-
-let item = ref(null)
+const error = ref(null)
+const validationError = ref(null)
 let brands = []
 let categories = []
-let error = null
-let validationError = null
-
-const { err, data } = await store.getOne('api/products', route.params.id)
-error = err
-item.value = data?.data
-item.value.hide = Boolean(item.value.hide)
 
 const { err: brandErr, collection: brandCollection } = await store.all('api/products/brands')
-error = brandErr
+error.value = brandErr
 if (brandCollection.data) {
   brands = brandCollection.data
 }
 
 const { err: categoryErr, collection: categoryCollection } =
   await store.all('api/products/categories')
-error = categoryErr
+error.value = categoryErr
 if (categoryCollection.data) {
   categories = categoryCollection.data
 }
 
+const item = reactive({
+  brand_id: 1,
+  category_id: 1,
+  name: '',
+  description: '',
+  img: null,
+  site_description: '',
+  site_keyword: '',
+  hide: 0
+})
+
 const fileChange = async (event) => {
-  item.value.img = event.target.files[0]
+  item.img = event.target.files[0]
+  // console.log('fileChange', item.img.name, typeof item.img)
 }
 
 const onSubmit = async () => {
-  item.value._method = 'PUT'
-  if (typeof item.value.img == 'string') {
-    // send only images, not file name
-    delete item.value.img
-  }
+  // console.log(typeof item.img)
+  //   if (typeof item.img === null) {
+  //     // send only images, not file name
+  //     delete item.value.img
+  //   }
+  // console.log('onSubmit', item)
 
-  const { err, validationErr, data } = await store.updatePostForm(
-    'api/products',
-    item.value.id,
-    item.value
-  )
-  error = err
-  validationError = validationErr
+  const { err, validationErr, data } = await store.createPostForm('api/products/', item)
+  error.value = err
+  validationError.value = validationErr
+  // console.log(err, validationErr, data)
 
-  if (data?.status == 200) {
-    router.push({ name: 'products.show', params: { id: item.value.id } })
+  if (data?.status == 201) {
+    router.push({ name: 'products.index' })
   }
 }
 </script>
 
 <template>
-  <HeaderOne>Produkt</HeaderOne>
-  <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
-  <form v-if="item" @submit.prevent="onSubmit" class="mx-2">
+  <HeaderOne>Dodawanie</HeaderOne>
+  <form @submit.prevent="onSubmit" class="mx-2">
     <InputGroup>
       <InputLabel for="brand">Firma</InputLabel>
       <InputSelect
@@ -144,16 +145,16 @@ const onSubmit = async () => {
       </template>
     </InputGroup>
     <InputGroup>
-      <InputLabel for="site_keyword">Opis strony</InputLabel>
+      <InputLabel for="site_keyword">Słowa kluczowe</InputLabel>
       <InputField v-model="item.site_keyword" id="site_keyword" placeholder="Pole nieobowiązkowe" />
       <template v-if="validationError?.site_keyword">
-        <template v-for="e in validationError.site_description" :key="e.site_keyword">
+        <template v-for="e in validationError.site_keyword" :key="e.site_keyword">
           <ValidationError>{{ e }}</ValidationError>
         </template>
       </template>
     </InputGroup>
     <InputGroup>
-      <InputCheckbox v-model="item.hide" id="hide" label="Ukryty" />
+      <InputCheckbox v-model="item.hide" id="hide" label="Ukryj" />
       <template v-if="validationError?.hide">
         <template v-for="e in validationError.hide" :key="e.hide">
           <ValidationError>{{ e }}</ValidationError>
@@ -163,6 +164,6 @@ const onSubmit = async () => {
     <InputButton />
   </form>
   <BtnGroup>
-    <RouterLink :to="{ name: 'products.show', params: { id: item.id } }">Powrót</RouterLink>
+    <RouterLink :to="{ name: 'products.index' }">Powrót</RouterLink>
   </BtnGroup>
 </template>

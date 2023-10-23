@@ -5,6 +5,8 @@ import { useStore } from '@/stores/store'
 import { useTrueFalseMessage } from '@/composables/useTrueFalseMessage'
 import HeaderOne from '@/components/HeaderOne.vue'
 import AppAlert from '@/components/AppAlert.vue'
+import TableHeader from '@/components/TableHeader.vue'
+import TableHeaderRow from '@/components/TableHeaderRow.vue'
 import TableData from '@/components/TableData.vue'
 import BtnGroup from '@/components/BtnGroup.vue'
 import ImageModal from '@/components/ImageModal.vue'
@@ -101,10 +103,37 @@ const destroy = async (id) => {
       </tr>
     </tbody>
   </table>
-  <BtnGroup>
+  <BtnGroup class="mb-12">
     <RouterLink :to="{ name: 'products.index' }">Powrót</RouterLink>
     <template v-if="item">
       <RouterLink :to="{ name: 'products.edit', params: { id: item.id } }">Edytuj</RouterLink>
     </template>
   </BtnGroup>
+  <!-- <div>{{ item.types }}</div> -->
+  <HeaderOne>Typu (rodzaje) produktu</HeaderOne>
+  <table v-if="item.types.length" class="w-full px-2 text-left">
+    <thead>
+      <TableHeaderRow>
+        <TableHeader>L.P.</TableHeader>
+        <TableHeader>#</TableHeader>
+        <TableHeader>Nazwa</TableHeader>
+        <TableHeader>Cena [zł]</TableHeader>
+        <TableHeader>Cena promocyjna [zł]</TableHeader>
+        <TableHeader>Ilość</TableHeader>
+        <TableHeader>Ukryty</TableHeader>
+      </TableHeaderRow>
+    </thead>
+    <tbody>
+      <tr v-for="(type, index) in item.types" :key="type.id">
+        <TableData>{{ index + 1 }}</TableData>
+        <TableData>{{ type.id }}</TableData>
+        <TableData>{{ type.name }}</TableData>
+        <TableData>{{ type.price }}</TableData>
+        <TableData>{{ type.promo_price }}</TableData>
+        <TableData>{{ type.quantity }}</TableData>
+        <TableData>{{ type.hide }}</TableData>
+      </tr>
+    </tbody>
+  </table>
+  <AppAlert v-else>Brak typów produktu</AppAlert>
 </template>

@@ -65,6 +65,30 @@ export const useStore = defineStore('store', () => {
     return { err, validationErr, data }
   }
 
+  async function createPostForm(urlFragment, payload) {
+    const authStore = useAuthStore()
+    let err = null
+    let validationErr = null
+    let data = null
+    try {
+      data = await axios.postForm(urlFragment, payload, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
+    } catch (e) {
+      if (e.response.status != 422) {
+        err = e
+      }
+      // console.log('store error', e.response.status)
+      if (e.response?.data.errors) {
+        validationErr = e.response.data.errors
+      }
+    }
+
+    return { err, validationErr, data }
+  }
+
   async function update(urlFragment, id, payload) {
     const authStore = useAuthStore()
     let err = ref(null)
@@ -91,7 +115,7 @@ export const useStore = defineStore('store', () => {
     return { err, validationErr, data }
   }
 
-  async function postForm(urlFragment, id, payload) {
+  async function updatePostForm(urlFragment, id, payload) {
     const authStore = useAuthStore()
     let err = ref(null)
     let validationErr = []
@@ -129,5 +153,5 @@ export const useStore = defineStore('store', () => {
     return { err, data }
   }
 
-  return { all, getOne, create, update, destroy, postForm }
+  return { all, getOne, create, update, destroy, updatePostForm, createPostForm }
 })

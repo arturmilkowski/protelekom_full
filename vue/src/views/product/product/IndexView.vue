@@ -21,6 +21,9 @@ if (res.data) {
 <template>
   <HeaderOne>Produkty</HeaderOne>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
+  <p class="px-2 my-6">
+    <RouterLink :to="{ name: 'products.create' }">Dodaj</RouterLink>
+  </p>
   <table v-if="collection.length" class="w-full px-2 text-left">
     <thead>
       <TableHeaderRow>
