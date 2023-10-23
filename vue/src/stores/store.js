@@ -1,14 +1,20 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { useAuthStore } from './auth'
 
 export const useStore = defineStore('store', () => {
   async function all(urlFragment) {
+    const authStore = useAuthStore()
     let collection = []
     let err = null
 
     try {
-      const res = await axios(urlFragment)
+      const res = await axios(urlFragment, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
       collection = res.data
     } catch (e) {
       err = e
@@ -18,10 +24,15 @@ export const useStore = defineStore('store', () => {
   }
 
   async function getOne(urlFragment, id) {
+    const authStore = useAuthStore()
     let err = null
     let data = null
     try {
-      const res = await axios(`${urlFragment}/${id}`)
+      const res = await axios(`${urlFragment}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
       data = res.data
     } catch (e) {
       err = e
@@ -31,12 +42,16 @@ export const useStore = defineStore('store', () => {
   }
 
   async function create(urlFragment, payload) {
-    // const authStore = useAuthStore();
+    const authStore = useAuthStore()
     let err = null
     let validationErr = null
     let data = null
     try {
-      data = await axios.post(urlFragment, payload)
+      data = await axios.post(urlFragment, payload, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
     } catch (e) {
       if (e.response.status != 422) {
         err = e
@@ -51,12 +66,16 @@ export const useStore = defineStore('store', () => {
   }
 
   async function update(urlFragment, id, payload) {
-    // const authStore = useAuthStore();
+    const authStore = useAuthStore()
     let err = ref(null)
     let validationErr = []
     let data = null
     try {
-      data = await axios.put(urlFragment + '\\' + id, payload)
+      data = await axios.put(urlFragment + '\\' + id, payload, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
     } catch (e) {
       err.value = e
       /*
@@ -73,11 +92,16 @@ export const useStore = defineStore('store', () => {
   }
 
   async function postForm(urlFragment, id, payload) {
+    const authStore = useAuthStore()
     let err = ref(null)
     let validationErr = []
     let data = null
     try {
-      data = await axios.postForm(urlFragment + '\\' + id, payload)
+      data = await axios.postForm(urlFragment + '\\' + id, payload, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
     } catch (e) {
       err.value = e
       if (e.response?.data.errors) {
@@ -89,11 +113,15 @@ export const useStore = defineStore('store', () => {
   }
 
   async function destroy(urlFragment, id) {
-    // const authStore = useAuthStore();
+    const authStore = useAuthStore()
     let err = null
     let data = null
     try {
-      data = await axios.delete(urlFragment + '\\' + id)
+      data = await axios.delete(urlFragment + '\\' + id, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`
+        }
+      })
     } catch (e) {
       err = e
     }
