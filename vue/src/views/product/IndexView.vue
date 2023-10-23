@@ -3,6 +3,6 @@
     <RouterLink :to="{ name: 'products.brands.index' }">Firmy</RouterLink>
     <RouterLink :to="{ name: 'products.categories.index' }">Kategorie</RouterLink>
     <RouterLink :to="{ name: 'products.conditions.index' }">Stan</RouterLink>
-    <RouterLink :to="{ name: 'products.products.index' }">Produkty</RouterLink>
+    <RouterLink :to="{ name: 'products.index' }">Produkty</RouterLink>
   </div>
 </template>

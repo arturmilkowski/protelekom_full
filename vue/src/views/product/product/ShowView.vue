@@ -102,11 +102,9 @@ const destroy = async (id) => {
     </tbody>
   </table>
   <BtnGroup>
-    <RouterLink :to="{ name: 'products.products.index' }">Powrót</RouterLink>
+    <RouterLink :to="{ name: 'products.index' }">Powrót</RouterLink>
     <template v-if="item">
-      <RouterLink :to="{ name: 'products.products.edit', params: { id: item.id } }"
-        >Edytuj</RouterLink
-      >
+      <RouterLink :to="{ name: 'products.edit', params: { id: item.id } }">Edytuj</RouterLink>
     </template>
   </BtnGroup>
 </template>

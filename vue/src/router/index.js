@@ -43,7 +43,7 @@ const router = createRouter({
     },
     {
       path: '/products/index',
-      name: 'products.index',
+      name: 'products.home',
       component: () => import('../views/product/IndexView.vue'),
       meta: { auth: true }
     },
@@ -78,20 +78,20 @@ const router = createRouter({
       meta: { auth: true }
     },
     {
-      path: '/products/products',
-      name: 'products.products.index',
+      path: '/products',
+      name: 'products.index',
       component: () => import('../views/product/product/IndexView.vue'),
       meta: { auth: true }
     },
     {
-      path: '/products/products/:id',
-      name: 'products.products.show',
+      path: '/products/:id',
+      name: 'products.show',
       component: () => import('../views/product/product/ShowView.vue'),
       meta: { auth: true }
     },
     {
-      path: '/products/products/:id/edit',
-      name: 'products.products.edit',
+      path: '/products/:id/edit',
+      name: 'products.edit',
       component: () => import('../views/product/product/EditView.vue'),
       meta: { auth: true }
     },
@@ -124,13 +124,9 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const store = useAuthStore()
-  // console.log('store', store.isGuest)
   if (to.meta.auth === true && store.isGuest && to.name !== 'login') {
     return { name: 'login' }
   }
-  // if (to.meta.auth === true && to.name !== 'login') {
-  //   return { name: 'login' }
-  // }
-  // console.log('beforeEach', 'to auth:', to.meta.auth)
 })
+
 export default router

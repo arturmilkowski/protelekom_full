@@ -8,7 +8,7 @@ const store = useAuthStore()
     <RouterLink :to="{ name: 'pages.index' }">Home</RouterLink>
     <RouterLink :to="{ name: 'pages.about' }">About</RouterLink>
     <RouterLink v-if="store.isAuth" :to="{ name: 'posts.index' }">Blog</RouterLink>
-    <RouterLink v-if="store.isAuth" :to="{ name: 'products.index' }">Produkty</RouterLink>
+    <RouterLink v-if="store.isAuth" :to="{ name: 'products.home' }">Produkty</RouterLink>
     <RouterLink v-if="store.isGuest" :to="{ name: 'login' }">Zaloguj</RouterLink>
     <RouterLink v-else :to="{ name: 'logout' }">Wyloguj</RouterLink>
   </nav>

@@ -34,7 +34,7 @@ if (res.data) {
         <TableData>{{ index + 1 }}</TableData>
         <TableData>{{ item.id }}</TableData>
         <TableData>
-          <RouterLink :to="{ name: 'products.products.show', params: { id: item.id } }">
+          <RouterLink :to="{ name: 'products.show', params: { id: item.id } }">
             {{ item.name }}
           </RouterLink>
         </TableData>

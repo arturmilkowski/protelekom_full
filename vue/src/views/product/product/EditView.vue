@@ -62,7 +62,7 @@ const onSubmit = async () => {
   validationError = validationErr
 
   if (data?.status == 200) {
-    router.push({ name: 'products.products.show', params: { id: item.id } })
+    router.push({ name: 'products.show', params: { id: item.value.id } })
   }
 }
 </script>
@@ -163,8 +163,6 @@ const onSubmit = async () => {
     <InputButton />
   </form>
   <BtnGroup>
-    <RouterLink :to="{ name: 'products.products.show', params: { id: item.id } }"
-      >Powrót</RouterLink
-    >
+    <RouterLink :to="{ name: 'products.show', params: { id: item.id } }">Powrót</RouterLink>
   </BtnGroup>
 </template>
