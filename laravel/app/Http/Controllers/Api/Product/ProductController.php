@@ -18,17 +18,6 @@ class ProductController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return ProductResource::collection(Product::with(['types'])->latest()->get());
-
-        /*
-        return ProductResource::collection(
-            Cache::rememberForever(
-                'products',
-                function () {
-                    return Product::latest()->simplePaginate(2);
-                }
-            )
-        );
-        */
     }
 
     public function store(ProductRequest $request): JsonResponse

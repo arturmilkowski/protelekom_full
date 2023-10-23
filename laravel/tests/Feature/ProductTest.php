@@ -36,7 +36,7 @@ class ProductTest extends TestCase
             ->getJson(route('api.products.index'));
 
         $response->assertStatus(200);
-        $response->dd();
+        // $response->dd();
         /*
         $response->assertJsonStructure([
             'data' => [

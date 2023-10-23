@@ -28,7 +28,7 @@ class TypeFactory extends Factory
             'quantity' => $this->faker->numberBetween(0, 5),
             'hide' => $this->faker->numberBetween(0, 1),
             'description' => $this->faker->words(3, true),
-            'img' => $this->faker->words(1, true),
+            // 'img' => $this->faker->words(1, true),
         ];
     }
 }
