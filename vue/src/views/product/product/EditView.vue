@@ -47,7 +47,7 @@ const fileChange = async (event) => {
 }
 
 const onSubmit = async () => {
-  item.value._method = 'PUT'
+  // item.value._method = 'PUT'
   if (typeof item.value.img == 'string') {
     // send only images, not file name
     delete item.value.img

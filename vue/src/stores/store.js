@@ -118,6 +118,7 @@ export const useStore = defineStore('store', () => {
     let err = ref(null)
     let validationErr = []
     let data = null
+    payload._method = 'PUT'
     try {
       data = await axios.postForm(urlFragment + '\\' + id, payload, {
         headers: {
