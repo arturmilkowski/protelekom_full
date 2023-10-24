@@ -56,7 +56,6 @@ export const useStore = defineStore('store', () => {
       if (e.response.status != 422) {
         err = e
       }
-      // console.log('store error', e.response.status)
       if (e.response?.data.errors) {
         validationErr = e.response.data.errors
       }
@@ -80,7 +79,6 @@ export const useStore = defineStore('store', () => {
       if (e.response.status != 422) {
         err = e
       }
-      // console.log('store error', e.response.status)
       if (e.response?.data.errors) {
         validationErr = e.response.data.errors
       }

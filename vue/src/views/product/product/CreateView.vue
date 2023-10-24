@@ -47,21 +47,12 @@ const item = reactive({
 
 const fileChange = async (event) => {
   item.img = event.target.files[0]
-  // console.log('fileChange', item.img.name, typeof item.img)
 }
 
 const onSubmit = async () => {
-  // console.log(typeof item.img)
-  //   if (typeof item.img === null) {
-  //     // send only images, not file name
-  //     delete item.value.img
-  //   }
-  // console.log('onSubmit', item)
-
   const { err, validationErr, data } = await store.createPostForm('api/products/', item)
   error.value = err
   validationError.value = validationErr
-  // console.log(err, validationErr, data)
 
   if (data?.status == 201) {
     router.push({ name: 'products.index' })
@@ -71,6 +62,7 @@ const onSubmit = async () => {
 
 <template>
   <HeaderOne>Dodawanie</HeaderOne>
+  <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
   <form @submit.prevent="onSubmit" class="mx-2">
     <InputGroup>
       <InputLabel for="brand">Firma</InputLabel>
