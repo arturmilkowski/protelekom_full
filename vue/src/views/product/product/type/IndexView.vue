@@ -15,13 +15,14 @@ let collection = ref([])
 let error = ref(null)
 // api/products/{product}/types
 const url = `api/products/${route.params.id}/types`
-console.log(url)
+// console.log(url)
 const { err, collection: res } = await store.all(url)
 error.value = err
-console.log(res.data)
+// console.log(res.data)
 if (res.data) {
   collection.value = res.data
 }
+// const { message: hideMessage } = useTrueFalseMessage(item.value.hide)
 </script>
 
 <template>
@@ -53,9 +54,14 @@ if (res.data) {
         <TableData>{{ item.product_id }}</TableData>
         <TableData>{{ item.product }}</TableData>
         <TableData>
-          <!-- <RouterLink :to="{ name: 'products.show', params: { id: item.id } }"> -->
-          {{ item.name }}
-          <!-- </RouterLink> -->
+          <RouterLink
+            :to="{
+              name: 'products.types.show',
+              params: { product_id: item.product_id, id: item.id }
+            }"
+          >
+            {{ item.name }}
+          </RouterLink>
         </TableData>
         <TableData>{{ item.price }}</TableData>
         <TableData>{{ item.promo_price }}</TableData>

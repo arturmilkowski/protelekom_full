@@ -1,0 +1,83 @@
+<script setup>
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from '@/stores/store'
+import { useTrueFalseMessage } from '@/composables/useTrueFalseMessage'
+import HeaderOne from '@/components/HeaderOne.vue'
+import AppAlert from '@/components/AppAlert.vue'
+import TableData from '@/components/TableData.vue'
+import BtnGroup from '@/components/BtnGroup.vue'
+// import ImageModal from '@/components/ImageModal.vue'
+
+const route = useRoute()
+const store = useStore()
+let error = ref(null)
+let item = ref(null)
+
+const url = `api/products/${route.params.product_id}/types`
+const { err, data } = await store.getOne(url, route.params.id)
+error.value = err
+item.value = data?.data
+let hideMessage
+if (item.value) {
+  const { message } = useTrueFalseMessage(item.value.hide)
+  hideMessage = message
+}
+</script>
+
+<template>
+  <HeaderOne>Produkt</HeaderOne>
+  <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
+  <table v-if="item" class="w-full px-2">
+    <tbody>
+      <tr>
+        <TableData>#</TableData>
+        <TableData>{{ item.id }}</TableData>
+      </tr>
+      <tr>
+        <TableData>ID produktu</TableData>
+        <TableData>{{ item.product_id }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Produkt</TableData>
+        <TableData>{{ item.product }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Nazwa</TableData>
+        <TableData>{{ item.name }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Cena [zł]</TableData>
+        <TableData>{{ item.price }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Cena promocyjna [zł]</TableData>
+        <TableData>{{ item.promo_price }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Stan</TableData>
+        <TableData>{{ item.condition }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Ilość</TableData>
+        <TableData>{{ item.quantity }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Ukryty</TableData>
+        <TableData>{{ hideMessage }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Opis</TableData>
+        <TableData>{{ item.description }}</TableData>
+      </tr>
+      <tr>
+        <TableData>Grafika</TableData>
+        <TableData>{{ item.url }}</TableData>
+      </tr>
+    </tbody>
+  </table>
+  <BtnGroup class="mb-12">
+    <RouterLink :to="{ name: 'products.types.index', params: { id: 1 } }">Powrót</RouterLink>
+    Edytuj
+  </BtnGroup>
+</template>
