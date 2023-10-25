@@ -108,6 +108,7 @@ const destroy = async (id) => {
     <template v-if="item">
       <RouterLink :to="{ name: 'products.edit', params: { id: item.id } }">Edytuj</RouterLink>
     </template>
+    <RouterLink :to="{ name: 'products.types.index', params: { id: item.id } }">Typy</RouterLink>
   </BtnGroup>
   <!-- <div>{{ item.types }}</div> -->
   <HeaderOne>Typu (rodzaje) produktu</HeaderOne>
