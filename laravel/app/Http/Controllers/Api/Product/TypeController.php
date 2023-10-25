@@ -14,17 +14,11 @@ use App\Services\File;
 
 class TypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Product $product): AnonymousResourceCollection
     {
-        return TypeResource::collection($product->with(['types'])->latest()->get());
+        return TypeResource::collection($product->types);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(TypeRequest $request, Product $product): JsonResponse
     {
         $validated = $request->validated();
@@ -43,7 +37,6 @@ class TypeController extends Controller
 
         return response()->json($type, 201);
     }
-
 
     public function show(Product $product, Type $type): TypeResource
     {
