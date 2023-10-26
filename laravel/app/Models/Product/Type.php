@@ -20,6 +20,8 @@ class Type extends Model
         'promo_price',
         'quantity',
         'hide',
+        'description',
+        'img'
     ];
 
     protected static function booted(): void
