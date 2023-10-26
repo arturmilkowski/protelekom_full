@@ -7,12 +7,13 @@ import HeaderOne from '@/components/HeaderOne.vue'
 import AppAlert from '@/components/AppAlert.vue'
 import TableData from '@/components/TableData.vue'
 import BtnGroup from '@/components/BtnGroup.vue'
-// import ImageModal from '@/components/ImageModal.vue'
+import ImageModal from '@/components/ImageModal.vue'
 
 const route = useRoute()
 const store = useStore()
 let error = ref(null)
 let item = ref(null)
+const showModal = ref(false)
 
 const url = `api/products/${route.params.product_id}/types`
 const { err, data } = await store.getOne(url, route.params.id)
@@ -23,9 +24,25 @@ if (item.value) {
   const { message } = useTrueFalseMessage(item.value.hide)
   hideMessage = message
 }
+
+const destroy = async (id) => {
+  if (confirm('Potwierdź')) {
+    const url = `api/products/${route.params.product_id}/types/images`
+    try {
+      await store.destroy(url, id)
+    } catch (e) {
+      error.value = e
+    }
+
+    item.value.img = null
+  }
+}
 </script>
 
 <template>
+  <Teleport to="body">
+    <ImageModal :show="showModal" :img="item.img" @close="showModal = false" />
+  </Teleport>
   <HeaderOne>Produkt</HeaderOne>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
   <table v-if="item" class="w-full px-2">
@@ -72,12 +89,22 @@ if (item.value) {
       </tr>
       <tr>
         <TableData>Grafika</TableData>
-        <TableData>{{ item.url }}</TableData>
+        <TableData>
+          <template v-if="item.img">
+            <a href="#" id="show-modal" @click="showModal = true">
+              <img :src="item.img" width="200" />
+            </a>
+            <a @click="destroy(route.params.id)" href="#usunGrafike" class="btn btn-danger">Usuń</a>
+          </template>
+          <template v-else>&mdash;</template>
+        </TableData>
       </tr>
     </tbody>
   </table>
   <BtnGroup class="mb-12">
-    <RouterLink :to="{ name: 'products.types.index', params: { id: 1 } }">Powrót</RouterLink>
+    <RouterLink :to="{ name: 'products.types.index', params: { id: route.params.product_id } }"
+      >Powrót</RouterLink
+    >
     Edytuj
   </BtnGroup>
 </template>

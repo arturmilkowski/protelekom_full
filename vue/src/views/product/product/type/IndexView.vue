@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useStore } from '@/stores/store'
-import { useTrueFalseMessage } from '@/composables/useTrueFalseMessage'
 import HeaderOne from '@/components/HeaderOne.vue'
 import AppAlert from '@/components/AppAlert.vue'
+import BtnGroup from '@/components/BtnGroup.vue'
 import TableData from '@/components/TableData.vue'
 import TableHeader from '@/components/TableHeader.vue'
 import TableHeaderRow from '@/components/TableHeaderRow.vue'
@@ -13,24 +13,22 @@ const route = useRoute()
 const store = useStore()
 let collection = ref([])
 let error = ref(null)
-// api/products/{product}/types
+
 const url = `api/products/${route.params.id}/types`
-// console.log(url)
 const { err, collection: res } = await store.all(url)
 error.value = err
-// console.log(res.data)
 if (res.data) {
   collection.value = res.data
 }
-// const { message: hideMessage } = useTrueFalseMessage(item.value.hide)
 </script>
 
 <template>
   <HeaderOne>Typy produktu</HeaderOne>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
   <p class="px-2 my-6">
-    <!-- <RouterLink :to="{ name: 'products.create' }">Dodaj</RouterLink> -->
-    Dodaj
+    <RouterLink :to="{ name: 'products.types.create', params: { id: route.params.id } }"
+      >Dodaj</RouterLink
+    >
   </p>
   <table v-if="collection.length" class="w-full px-2 text-left">
     <thead>
@@ -72,4 +70,7 @@ if (res.data) {
     </tbody>
   </table>
   <AppAlert v-else>Brak danych</AppAlert>
+  <BtnGroup>
+    <RouterLink :to="{ name: 'products.show', params: { id: route.params.id } }">Powrót</RouterLink>
+  </BtnGroup>
 </template>
