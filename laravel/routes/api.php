@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\Product\{
     TypeImgController
 };
 use App\Http\Controllers\Api\Page\AboutController;
+use App\Http\Controllers\Api\Slug\SlugController;
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -30,4 +32,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('products/{product}/types/images/{type}', TypeImgController::class)->name('api.products.types.images.destroy');
 
     Route::get('about', AboutController::class)->name('api.pages.about');
+    Route::post('slugs', SlugController::class)->name('api.slugs');
 });
