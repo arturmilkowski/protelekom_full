@@ -105,6 +105,12 @@ const destroy = async (id) => {
     <RouterLink :to="{ name: 'products.types.index', params: { id: route.params.product_id } }"
       >Powrót</RouterLink
     >
-    Edytuj
+    <RouterLink
+      :to="{
+        name: 'products.types.edit',
+        params: { product_id: route.params.product_id, id: item.id }
+      }"
+      >Edytuj</RouterLink
+    >
   </BtnGroup>
 </template>
