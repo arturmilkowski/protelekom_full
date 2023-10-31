@@ -153,10 +153,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  /*
   const store = useAuthStore()
   if (to.meta.auth === true && store.isGuest && to.name !== 'login') {
     return { name: 'login' }
   }
+  */
 })
 
 export default router

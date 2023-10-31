@@ -19,14 +19,10 @@ const email = ref('') // 'artur-milkowski@tlen.pl'
 const password = ref('') // '12345678'
 
 const onSubmit = async () => {
-  // console.log('onSubmit', email.value, password.value)
-
   const payload = {
     email: email.value,
     password: password.value
   }
-
-  // console.log(payload)
   const { err, validationErr, response } = await store.login(payload)
   error.value = err
   validationError.value = validationErr
@@ -39,7 +35,7 @@ const onSubmit = async () => {
 
 <template>
   <HeaderOne>Logowanie</HeaderOne>
-  <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
+  <AppAlert v-if="error" type="danger">{{ error }}</AppAlert>
   <template v-if="store.isGuest">
     <form @submit.prevent="onSubmit" class="px-2 pt-2">
       <InputGroup>

@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/stores/store'
+import axios from 'axios'
 import HeaderOne from '@/components/HeaderOne.vue'
 import BtnGroup from '@/components/BtnGroup.vue'
 import InputButton from '@/components/InputButton.vue'
@@ -34,6 +35,17 @@ if (collection.data) {
   conditions = collection.data
 }
 
+watch(item.value, async (item) => {
+  console.log(`item is ${item.name}`)
+  const payload = { text: item.name }
+  const res = await axios.post(`api/slugs`, payload)
+  console.log(res)
+})
+
+// watch(item.name, async (newQuestion, oldQuestion) => {
+//   console.log(item.name)
+// })
+
 const fileChange = async (event) => {
   item.value.img = event.target.files[0]
 }
@@ -61,7 +73,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <HeaderOne>Edycja</HeaderOne>
+  <HeaderOne>Edycja [{{ item.name }}]</HeaderOne>
   <AppAlert v-if="error" type="danger">{{ error.message }}</AppAlert>
   <form v-if="item" @submit.prevent="onSubmit" class="mx-2">
     <InputGroup>

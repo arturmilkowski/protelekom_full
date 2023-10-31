@@ -8,9 +8,13 @@ const store = useAuthStore()
   <nav class="py-2 px-2">
     <RouterLink :to="{ name: 'pages.index' }">Home</RouterLink>
     <RouterLink :to="{ name: 'pages.about' }">About</RouterLink>
-    <RouterLink v-if="store.isAuth" :to="{ name: 'posts.index' }">Blog</RouterLink>
-    <RouterLink v-if="store.isAuth" :to="{ name: 'products.home' }">Produkty</RouterLink>
-    <RouterLink v-if="store.isGuest" :to="{ name: 'login' }">Zaloguj</RouterLink>
-    <RouterLink v-else :to="{ name: 'logout' }">Wyloguj</RouterLink>
+    <!-- v-if="store.isAuth" -->
+    <RouterLink :to="{ name: 'posts.index' }">Blog</RouterLink>
+    <!-- v-if="store.isAuth" -->
+    <RouterLink :to="{ name: 'products.home' }">Produkty</RouterLink>
+    <!-- v-if="store.isGuest" -->
+    <RouterLink :to="{ name: 'login' }">Zaloguj</RouterLink>
+    <!-- v-else -->
+    <RouterLink :to="{ name: 'logout' }">Wyloguj</RouterLink>
   </nav>
 </template>
